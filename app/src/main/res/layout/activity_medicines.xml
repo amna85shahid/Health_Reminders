@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="top"
+    tools:context=".Medicines">
+
+        <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+            <ImageView android:id="@+id/imageView2"
+                android:layout_width="396dp"
+                android:layout_height="290dp"
+                app:srcCompat="@drawable/project_title_image"
+                tools:layout_editor_absoluteX="7dp"
+                tools:layout_editor_absoluteY="220dp" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:paddingTop="280dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:text="Medicines List" />
+
+            <TextView
+                android:id="@+id/mName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Medicine Name:"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/medName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/nDoses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No. of Doses:"
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/noDoses"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="30dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/nDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No. of Days to use:"
+                android:layout_marginTop="60dp"
+                android:layout_gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/noDays"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:layout_marginTop="60dp"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textStyle="bold"/>
+
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNav"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:layout_gravity="bottom"
+                android:background="@color/grey"
+                app:menu="@menu/bottom_nav">
+
+            </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+
+
+        </FrameLayout>
+
+
+
+</LinearLayout>

@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Health_Reminders</string>
-    <string name="Login" />
+    <string name="Login">Login </string>
+    <string name="Appointments">Appointments</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="fragment_logout" >Hello logout fragment</string>
+    <string name="fragment_home">Hello Home fragment</string>
+
 </resources>
