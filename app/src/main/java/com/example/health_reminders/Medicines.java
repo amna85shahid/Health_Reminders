@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Medicines extends AppCompatActivity {
 
@@ -36,8 +38,10 @@ public class Medicines extends AppCompatActivity {
     private DatabaseReference myRef, userRef;
     private static final String PATIENT = "patients";
     String email;
-    String uid;
+    String uid, medName, doses, days, speechText;
     DataSnapshot ds;
+    TextToSpeech textToSpeech;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +81,14 @@ public class Medicines extends AppCompatActivity {
             }
         });
 
-     //   ArrayList<String> list = new ArrayList<>();
-     //   ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.medicine_list, list);
-      //  listView.setAdapter(adapter);
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    textToSpeech.setLanguage(Locale.US);
+                }
+            }
+        });
 
         userRef.addValueEventListener(new ValueEventListener() {
             @Override
@@ -87,12 +96,19 @@ public class Medicines extends AppCompatActivity {
                 ds = snapshot.child("medicines");
                 if(ds.getChildrenCount()>0) {
                     DataSnapshot item = ds.child("medicine");
-                    mName.setText(item.child("name").getValue().toString());
-                    nDays.setText(item.child("days").getValue().toString());
-                    nDoses.setText(item.child("doses").getValue().toString());
+                   medName =  item.child("name").getValue().toString();
+                    mName.setText(medName);
+                   days = item.child("days").getValue().toString();
+                   nDays.setText(days);
+                    doses = item.child("doses").getValue().toString();
+                    nDoses.setText(doses);
+                    speechText = "You have to take " + medName + doses + "times a day for" + days + "days";
+                    textToSpeech.speak(speechText, TextToSpeech.QUEUE_FLUSH, null, null);
+
                 }
                 else{
                     Toast.makeText(Medicines.this, "No medicines prescribed", Toast.LENGTH_SHORT).show();
+
                 }
 
       //          adapter.notifyDataSetChanged();

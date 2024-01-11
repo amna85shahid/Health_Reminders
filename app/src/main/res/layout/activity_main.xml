@@ -56,5 +56,4 @@
         android:text="login"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-
 </LinearLayout>

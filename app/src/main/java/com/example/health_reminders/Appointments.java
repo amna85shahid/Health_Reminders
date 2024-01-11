@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Appointments extends AppCompatActivity {
 
@@ -36,9 +38,10 @@ public class Appointments extends AppCompatActivity {
     private DatabaseReference myRef, userRef;
     private ListView listView;
     private static final String PATIENT = "patients";
-    String email;
-    String uid;
+    String uid, type, date, time;
     DataSnapshot item;
+
+    TextToSpeech textToSpeech;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,11 +58,6 @@ public class Appointments extends AppCompatActivity {
         uid = fAuth.getCurrentUser().getUid();
         myRef = database.getReference("patients");
         userRef = myRef.child(uid);
-
-       // Intent intent = getIntent();
-        // email = intent.getStringExtra("email");
-
-      //  Query checkUser = userRef.orderByChild("email").equalTo(email);
 
         bottomNavigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @SuppressLint("NonConstantResourceId")
@@ -79,6 +77,16 @@ public class Appointments extends AppCompatActivity {
                 return false;
             }
         });
+
+        textToSpeech = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() {
+            @Override
+            public void onInit(int status) {
+                if(status != TextToSpeech.ERROR){
+                    textToSpeech.setLanguage(Locale.US);
+                }
+            }
+        });
+
        final ArrayList<String> list = new ArrayList<>();
        final ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.appointment_list, list);
         listView.setAdapter(adapter);
@@ -91,12 +99,19 @@ public class Appointments extends AppCompatActivity {
 
                 if(item.getChildrenCount()>0) {
                     for (DataSnapshot ds : item.getChildren()) {
-                      //  list.add(ds.getKey().toString());
-                        //        list.add(item.getKey().toString());
-                               list.add(ds.child("type").getValue().toString());
-                                list.add(ds.child("date").getValue().toString());
-                               list.add(ds.child("time").getValue().toString());
-                    }
+                        type =  ds.child("type").getValue().toString();
+                        list.add(type);
+                        date =  ds.child("date").getValue().toString();
+                        list.add(date);
+                        time = ds.child("time").getValue().toString();
+                        list.add(time);
+//                          list.add(ds.child("type").getValue().toString());
+//                          list.add(ds.child("date").getValue().toString());
+//                          list.add(ds.child("time").getValue().toString());
+                        String speechText = "You have " + type + "appointment at" + time + "on" + date;
+                        textToSpeech.speak(speechText, TextToSpeech.QUEUE_FLUSH, null, null);
+
+                                        }
                 }
                 else{
                     list.add("No appointment Exist");
@@ -110,6 +125,8 @@ public class Appointments extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 }
